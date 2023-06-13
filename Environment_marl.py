@@ -63,7 +63,7 @@ class V2Ichannels:
     def get_path_loss(self, position_A):
         d1 = abs(position_A[0] - self.BS_position[0])
         d2 = abs(position_A[1] - self.BS_position[1])
-        distance = math.hypot(d1, d2)
+        distance = math.hypot(d1, d2) # 计算两个数的欧几里得距离 返回它们的平方和的平方根
         return 128.1 + 37.6 * np.log10(math.sqrt(distance ** 2 + (self.h_bs - self.h_ms) ** 2) / 1000) # + self.shadow_std * np.random.normal()
 
     def get_shadowing(self, delta_distance, shadowing):
