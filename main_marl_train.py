@@ -197,8 +197,12 @@ def update_target_q_network(sess):
 def save_models(sess, model_path):
     """ Save models to the current directory with the name filename """
 
+    # __file__表示当前脚本文件的路径。os.path.realpath(__file__)将脚本文件的相对路径转换为绝对路径。os.path.dirname(path)获取路径path的父目录路径。因此，current_dir将保存当前脚本文件所在的目录路径
     current_dir = os.path.dirname(os.path.realpath(__file__))
+    # current_dir是目录路径，表示当前脚本文件所在的目录。"model/" + model_path是文件路径，表示相对于当前目录的文件路径，包括文件名和扩展名。通过调用os.path.join()函数，将目录路径和文件路径合并在一起，得到完整的文件路径
     model_path = os.path.join(current_dir, "model/" + model_path)
+   # os.path.dirname(model_path)用于获取model_path的父目录路径。然后，os.path.exists()函数用于检查父目录路径是否存在。
+   # 如果父目录不存在，则执行os.makedirs()函数创建父目录及其所有缺失的目录。这样可以确保在保存模型时，目标路径的父目录是存在的
     if not os.path.exists(os.path.dirname(model_path)):
         os.makedirs(os.path.dirname(model_path))
     saver.save(sess, model_path, write_meta_graph=False)
