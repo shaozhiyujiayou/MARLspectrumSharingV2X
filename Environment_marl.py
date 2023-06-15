@@ -273,16 +273,17 @@ class Environ:
         Distance = abs(z.T - z)
 
         for i in range(len(self.vehicles)):
-            sort_idx = np.argsort(Distance[:, i])
+            sort_idx = np.argsort(Distance[:, i])  # 表示第i辆车辆与其他车辆的距离 对距离矩阵的第i列进行排序，可以确定与第i辆车辆距离最近的车辆的索引排列 从最近的邻居到最远的邻居
             for j in range(self.n_neighbor):
-                self.vehicles[i].neighbors.append(sort_idx[j + 1])
+                self.vehicles[i].neighbors.append(sort_idx[j + 1]) # 存储了当前车辆的邻居索引，按照与当前车辆距离的从近到远的顺序排列
             destination = self.vehicles[i].neighbors
 
             self.vehicles[i].destinations = destination
 
     def renew_channel(self):
         """ Renew slow fading channel """
-
+# 过np.identity(len(self.vehicles))创建了一个大小为(len(self.vehicles), len(self.vehicles))的单位矩阵。单位矩阵的对角线元素为1，其余元素为0
+# 对角线元素表示车辆与自身的路径损耗，设置为50，表示较高的路径损耗
         self.V2V_pathloss = np.zeros((len(self.vehicles), len(self.vehicles))) + 50 * np.identity(len(self.vehicles))
         self.V2I_pathloss = np.zeros((len(self.vehicles)))
 
