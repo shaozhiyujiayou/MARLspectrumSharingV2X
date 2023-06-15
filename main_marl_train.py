@@ -143,6 +143,11 @@ with g.as_default():
 
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
+    # save_path = '/path/to/save/model.ckpt'
+    # saver.save(sess, save_path)
+
+
+
 
 
 def predict(sess, s_t, ep, test_ep = False):
