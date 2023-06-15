@@ -305,7 +305,8 @@ class Environ:
     def renew_channels_fastfading(self):
         """ Renew fast fading channel """
 
-        V2V_channels_with_fastfading = np.repeat(self.V2V_channels_abs[:, :, np.newaxis], self.n_RB, axis=2)
+        # self.V2V_channels_abs是一个二维数组，表示车对车通信的信道增益。通过在第三个轴上插入一个新的维度（np.newaxis），我们可以将其转换为三维数组，使得第三个轴表示资源块（RB）的数量
+        V2V_channels_with_fastfading = np.repeat(self.V2V_channels_abs[:, :, np.newaxis], self.n_RB, axis=2) # 通过将self.V2V_channels_abs沿第三个轴（axis=2）重复self.n_RB次得到的数组
         self.V2V_channels_with_fastfading = V2V_channels_with_fastfading - 20 * np.log10(
             np.abs(np.random.normal(0, 1, V2V_channels_with_fastfading.shape) + 1j * np.random.normal(0, 1, V2V_channels_with_fastfading.shape)) / math.sqrt(2))
 
