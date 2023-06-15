@@ -156,7 +156,7 @@ def predict(sess, s_t, ep, test_ep = False):
     if np.random.rand() < ep and not test_ep:
         pred_action = np.random.randint(n_RB*n_power_levels)
     else:
-        pred_action = sess.run(g_q_action, feed_dict={x: [s_t]})[0]
+        pred_action = sess.run(g_q_action, feed_dict={x: [s_t]})[0] # 通过将状态s_t作为输入x，运行操作g_q_action来获取预测的动作。然后使用索引[0]从返回的结果中提取预测的动作值
     return pred_action
 
 
@@ -167,6 +167,8 @@ def q_learning_mini_batch(current_agent, current_sess):
 
     if current_agent.double_q:  # double q-learning
         pred_action = current_sess.run(g_q_action, feed_dict={x: batch_s_t_plus_1})
+        # 通过将批量状态batch_s_t_plus_1作为输入x_p，并将预测的动作pred_action与其对应的索引[[idx, pred_a] for idx, pred_a in enumerate(pred_action)]作为输入g_target_q_idx，
+        # 运行操作target_q_with_idx来获取目标Q值。返回的结果是一个批量大小的目标Q值数组。
         q_t_plus_1 = current_sess.run(target_q_with_idx, {x_p: batch_s_t_plus_1, g_target_q_idx: [[idx, pred_a] for idx, pred_a in enumerate(pred_action)]})
         batch_target_q_t = current_agent.discount * q_t_plus_1 + batch_reward
     else:
